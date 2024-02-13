@@ -1,1 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap');
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+
+@font-face {
+  font-family: Swid;
+  src: url(./assets/g.ttf);
+}
+@font-face {
+  font-family: spaceage;
+  src: url(./assets/spaceage.ttf);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html{
+
+}
+
+%boxshadow {
+    box-shadow: 0.25rem 0.25rem 0.6rem rgba(0,0,0,0.05), 0 0.5rem 1.125rem rgba(75,0,0,0.05);
+  }
+  
+  
+  
+  /*** STYLE ***/
+  *,
+  *:before,
+  *:after {
+    box-sizing: border-box;
+  }
+
+h1{
+
+  font-family: spaceage;
+    font-style: normal;
+    font-size: 25px !important;
+    color: #fff;
+    margin-bottom: 20px;
+    width: 100%;
+
+  
+    padding-bottom: 3px;
+
+    ::after{
+      content: "";
+      
+    }
+}
+h3{
+  color: #fff;
+  font-family: spaceage;
+  border-bottom: 1px solid #fafafa;
+  border-style: dashed;
+  padding-bottom: 3px;
+  font-size: larger;
+}
+p{
+  font-family: "Cedarville Cursive", cursive;
+  font-weight: 400;
+  font-style: normal;
+  color: #D3D3D3;
+}
+h2{
+    color: #e2e8f0;
+    margin-top:20px;
+    font-family: Swid;
+    font-weight: 400;
+    font-style: normal;
+}
+ol,ul {
+	padding-inline-start: 1.5em;
+	font-weight: 400;
+  margin-bottom: 10px;
+
+	::marker {
+		content: ">";
+		color: #48b;
+	}
+
+	ul ::marker {
+		content: ">>";
+	}
+}
+
+li {
+	position: relative;
+	padding-inline-start: 0.5em;
+	padding-top: 1.5em;
+	border-bottom: 1px solid #48b2;
+	cursor: default;
+	transition: color 0.4s;
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+
+
+
+	&:hover {
+		color: #48b;
+		
+		&::marker {
+			font-weight: 700;
+		}
+		&::after {
+			opacity: 1;
+			transition-delay: 0.2s;
+		}
+	}
+}
+.font-q{
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+}
+  .my-markdown-content{
+
+    padding-bottom: 10px;
+
+    img{
+      margin-top: 10px;
+      margin-bottom:10px ;
+    }
+  }
+footer{
+    
+    background: #111;
+    background: linear-gradient(
+        to right bottom,
+        rgba(0, 0, 0, 0.4),
+        rgba(0, 0, 0, 0.2)
+    );
+    backdrop-filter: blur(1rem);
+
+    z-index: 1;
+    border-radius: 5px !important;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar {
+  display: none;
+}
+a{
+  color: cadetblue;
+}
