@@ -7,17 +7,121 @@ import AppServerModule from './src/main.server';
 import { Title } from '@angular/platform-browser';
 import sharp from 'sharp';
 import { doubleStruck } from "weird-fonts" 
+import bootstrap from './src/main.server';
+import { Octokit } from "octokit";
 
+const octokit = new Octokit({ 
+  auth: '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',
+});
 const server = express();
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
 const indexHtml = join(serverDistFolder, 'index.server.html');
 const commonEngine = new CommonEngine();
 
-async function title(url: string) {
-  // Function to get the title and description based on the URL
+async function title(url:string) {
+  var arr = url.split("/");
+  let data;
+  switch (arr.length) {
+   case 2:
+     data = await octokit.request(`GET /repos/{owner}/{repo}/contents/README.md`, {
+        owner: "hariharnautiyal2",
+        repo: arr[1]
+      });
+      break;
+    case 3:
+    data = await octokit.request(`GET /repos/{owner}/{repo}/contents/${arr[2].search(".md") === -1 ? "README.md" : arr[2]}`, {
+        owner: "hariharnautiyal2",
+        repo: arr[1]
+      });
+      break;
+   case 4:
+      data = await octokit.request(`GET /repos/{owner}/{repo}/contents/${arr[2]}/${arr[3].search(".md") === -1 ? "README.md" : arr[3]}`, {
+        owner: "hariharnautiyal2",
+        repo: arr[1]
+      });
+      break;
+   case 5:
+      data = await octokit.request(`GET /repos/{owner}/{repo}/contents/${arr[2]}/${arr[3]}/${arr[4]}`, {
+        owner: "hariharnautiyal2",
+        repo: arr[1]
+      });
+      break;
+    default:
+      throw new Error("Invalid url");
+  }
+  const buffer = Buffer.from(data.data.content, 'base64');
+  const text = buffer.toString('utf-8');
+  return getTitleAndDesc(text);
 }
 
+
+function getTitleAndDesc(text:any) {
+  var regex = /^# (.*)$/m;
+  var match = text.match(regex);
+ // Assume the string is stored in a variable called str
+var result = text.split("\n") // Split the string by newline characters
+.filter((line:any) => !line.startsWith("#")) // Filter out the lines that start with #
+.join("\n"); // Join the remaining lines back into a string
+// Assume the string is stored in a variable called str
+var firstLine = result.split("\n"); // Get the first element of the array
+var linesArray:any = [];
+ firstLine.forEach((line:any) => {
+  const replacements = [
+  {
+    old:"<br>",new:"",
+  },
+  {
+    old:"<h1>",new:""
+  },
+  {
+    old:"</h1>",new:""
+  },
+  {
+    old:"<h2>",new:""
+  },
+  {
+    old:"</h2>",new:""
+  },
+  {
+    old:"<h3>",new:""
+  },
+  {
+      old:"</h5>",new:""
+  },
+  {
+   old:"<h5>",new:""
+  },
+  {
+    old:"</h3>",new:""
+  },
+  {
+    old:"<p>",new:""
+  },
+  {
+    old:"</p>",new:""
+  }];
+  
+  // Initialize a variable to store the modified html
+  let newline:string= line;
+  
+  // Loop over the replacements array and use the replace method on each pair of old and new values
+  for (let i = 0; i < replacements.length; i++) {
+    // Replace method with regular expression
+newline = newline.replace(new RegExp(replacements[i].old, "g"), replacements[i].new);
+
+  }
+  if(newline != ""){
+    linesArray.push(newline)
+  }
+ });
+console.log(result[0])
+  return {
+    title: match[1],
+    desc: linesArray[0]
+  };
+
+}
 async function generateDynamicImage(title:string,desc:string): Promise<Buffer> {
   // Function to generate the dynamic image using Sharp
   let width = 800;
@@ -105,20 +209,18 @@ server.get('/assets/dynamic-image/:title/:desc', async (req, res, next) => {
   }
 });
 
-
-// Handle other routes using Angular SSR
-server.get('*', async (req, res, next) => {
+server.get('*', (req, res, next) => {
   const { protocol, originalUrl, baseUrl, headers } = req;
-  
+
   commonEngine
-  .render({
-    bootstrap: AppServerModule,
-    documentFilePath: indexHtml,
-    url: `${protocol}://${headers.host}${originalUrl}`,
-    publicPath: browserDistFolder,
-    providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
-  })
-  .then(async (html) => {
+    .render({
+      bootstrap,
+      documentFilePath: indexHtml,
+      url: `${protocol}://${headers.host}${originalUrl}`,
+      publicPath: browserDistFolder,
+      providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
+    })
+    .then(async (html) => {
       const titmanle:any = await title(originalUrl);
       const replacements = [
         {old: "<title>Blogs by harihar nautiyal</title>", new: "<title>" + titmanle.title +" | Harihar Nautiyal blogs | "+originalUrl+ "</title>"},
@@ -138,9 +240,10 @@ server.get('*', async (req, res, next) => {
       }
             
       res.send(newHtml);
-      // Process HTML and send response
-    });
+    })
+    .catch((err) => next(err));
 });
+// Handle other routes using Angular SSR
 
 // Start the server
 const port = process.env['PORT'] || 4000;
