@@ -11,7 +11,7 @@ import bootstrap from './src/main.server';
 import { Octokit } from "octokit";
 
 const octokit = new Octokit({ 
-  auth: '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',
+  auth: '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',
 });
 const server = express();
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
