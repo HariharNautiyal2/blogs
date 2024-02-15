@@ -29,7 +29,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.webmanifest",
-              "src/robots.txt"
+              "src/robots.txt",
+              "src/download.png"
             ],
             "styles": [
               "src/styles.scss"

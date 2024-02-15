@@ -1,8 +1,9 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, HostListener, OnInit, Output, Renderer2, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Observable, map } from "rxjs";
 import { Meta, Title } from '@angular/platform-browser';
+import { InterceptRouterlinkDirective } from "./directive";
 
 @Component({
   selector:'blog',
@@ -11,7 +12,7 @@ import { Meta, Title } from '@angular/platform-browser';
 
 <div  class="flex flex-col md:flex-row h-fit w-full">
 <div class="flex flex-col md:flex-row h-fit w-full">
-<div class="my-markdown-content backdrop-blur-lg  relative text-slate-400 pt-5 list  px-3 mr-3 ml-3 mb-3  min-h-full text-lg md:w-4/6 overflow-auto " style="height: {{this.screenHeight - 150 + 'px'}};">
+<div class="my-markdown-content backdrop-blur-lg  relative text-slate-400 pt-5 list  px-3 mr-3 ml-3 mb-3  min-h-full text-lg md:w-4/6 overflow-auto " style="height: {{ height -150+ 'px'}} !important;">
      <div>
 
 </div>
@@ -85,6 +86,10 @@ import { Meta, Title } from '@angular/platform-browser';
   `,
 })
 export class Blog implements OnInit{
+
+  @ViewChild(InterceptRouterlinkDirective)
+  private interceptRouterlinkDirective!: InterceptRouterlinkDirective; 
+  
   url: string= "https://raw.githubusercontent.com/HariharNautiyal2/main/some_blogs/readme.md";
   repo:string | null =this.route.snapshot.paramMap.get('repo');
   tree:any;
@@ -93,10 +98,15 @@ export class Blog implements OnInit{
   name:string | null = this.route.snapshot.paramMap.get('file');
   private baseUrl = 'https://api.github.com';
   isLoading = false; // Add a loading state
-  constructor(private route: ActivatedRoute ,private router:Router,private http:HttpClient,private title:Title,private meta:Meta) {}
-  public screenWidth: any;  
-  public screenHeight: any;  
-  data!:string;
+  index:number=0;
+ isTyping=false;
+ chars:String[]=[];
+  constructor(private renderer: Renderer2,private route: ActivatedRoute ,private router:Router,private http:HttpClient,private title:Title,private meta:Meta) {
+
+
+  }
+public height:number=0;
+  data:string="";
 
   @Output() dataChanged: EventEmitter<string> = new EventEmitter<string>();
 
@@ -109,10 +119,9 @@ get_lol(){
   }
   
   ngOnInit() {
-
-    this.screenWidth = window.innerWidth;  
-    this.screenHeight = window.innerHeight;  
-    console.log(this.screenHeight)
+    // Get the inner width and height using Renderer2
+    this.height = window.innerHeight;
+    console.log( window.innerWidth)
     this.getTree();
     this.route.paramMap.subscribe(params => {
       const repo = params.get('repo');
@@ -145,7 +154,7 @@ get_lol(){
         this.url += `${name}.md`;
         this.isLoading = true; // Start loading
         this.http.get(this.url, {responseType: 'text'}).subscribe((data:any)=>{
-          this.data=data;
+          this.startTyping(data);
           this.isLoading = false; // End loading
           const headingRegex = /^#+\s+(.*)/gm; // Matches lines starting with #
           const matches = [];
@@ -154,7 +163,7 @@ get_lol(){
               matches.push(match[1]);
           }
     
-         this.title.setTitle(matches[0])
+         this.title.setTitle(matches[0]);
          this.meta.addTags([
           {name: 'keywords', content: data},
           {name: 'description', content: this.url},
@@ -199,6 +208,44 @@ get_lol(){
         
       }
   
+  }
+  startTyping(s:string) {
+    if(this.isTyping === true){
+
+      this.data="";
+      this.index=0;
+      this.chars=[];
+      // Start typing effect
+      this.typeString(s);
+    }else{
+      this.isTyping=true;
+      // Start typing effect
+      this.typeString(s);
+    }
+    // Set typing progress to true
+
+  }
+
+  // Method to end typing effect
+   endTyping() {
+    // Set typing progress to false
+    this.index=9999999999999999999999999;
+    this.data="";
+
+    this.index=0;
+
+  }
+
+  typeString(str: string) {
+     this.chars = str.split('');
+    const intervalId = setInterval(() => {
+      if (this.index < this.chars.length && this.isTyping===true) {
+        this.data += this.chars[this.index];
+        this.index++;
+      } else {
+        clearInterval(intervalId);
+      }
+    }, 25); // Adjust typing speed here
   }
   github(){
   let sata="raw.githubusercontent.com/HariharNautiyal2/" + this.repo;
