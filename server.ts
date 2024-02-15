@@ -109,15 +109,16 @@ server.get('/assets/dynamic-image/:title/:desc', async (req, res, next) => {
 // Handle other routes using Angular SSR
 server.get('*', async (req, res, next) => {
   const { protocol, originalUrl, baseUrl, headers } = req;
-  if (originalUrl !== '/assets/dynamic-image') {
-    try {
-      const html = await commonEngine.render({
-        bootstrap: AppServerModule,
-        documentFilePath: indexHtml,
-        url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: browserDistFolder,
-        providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
-      });
+  
+  commonEngine
+  .render({
+    bootstrap: AppServerModule,
+    documentFilePath: indexHtml,
+    url: `${protocol}://${headers.host}${originalUrl}`,
+    publicPath: browserDistFolder,
+    providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
+  })
+  .then(async (html) => {
       const titmanle:any = await title(originalUrl);
       const replacements = [
         {old: "<title>Blogs by harihar nautiyal</title>", new: "<title>" + titmanle.title +" | Harihar Nautiyal blogs | "+originalUrl+ "</title>"},
@@ -138,11 +139,7 @@ server.get('*', async (req, res, next) => {
             
       res.send(newHtml);
       // Process HTML and send response
-
-    } catch (err) {
-      next(err);
-    }
-  }
+    });
 });
 
 // Start the server
