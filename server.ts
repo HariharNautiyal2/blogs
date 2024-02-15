@@ -138,7 +138,7 @@ server.get('*', async (req, res, next) => {
             
       res.send(newHtml);
       // Process HTML and send response
-      res.send(html);
+
     } catch (err) {
       next(err);
     }
