@@ -9,10 +9,10 @@ import sharp from 'sharp';
 import { doubleStruck } from "weird-fonts" 
 import bootstrap from './src/main.server';
 import { Octokit } from "octokit";
+import { createAppAuth } from "@octokit/auth-app";
 
-const octokit = new Octokit({ 
-  auth: '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',
-});
+
+const octokit = new Octokit();
 const server = express();
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
