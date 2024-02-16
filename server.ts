@@ -10,10 +10,16 @@ import { doubleStruck } from "weird-fonts"
 import bootstrap from './src/main.server';
 import { Octokit } from "octokit";
 import { createAppAuth } from "@octokit/auth-app";
-
+const fs = require("fs");
+const privateKey = fs.readFileSync("newkey_pkcs8.pem", "utf8");
 
 const octokit = new Octokit({
-  auth:'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'
+  authStrategy: createAppAuth,
+  auth: {
+    appId: 830190,
+    privateKey: privateKey,
+    installationId: 47378039,
+  },
 });
 const server = express();
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
