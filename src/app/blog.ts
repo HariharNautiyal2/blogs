@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Observable, map } from "rxjs";
 import { Meta, Title } from '@angular/platform-browser';
 import { InterceptRouterlinkDirective } from "./directive";
-
+import Typed from 'typed.js';
 @Component({
   selector:'blog',
   template:`
@@ -46,8 +46,8 @@ import { InterceptRouterlinkDirective } from "./directive";
 </svg>
 
       </div>
-       <div *ngIf="!isLoading" class="h-full w-full" markdown appInterceptRouterlink [data]="data">
-  
+       <div *ngIf="!isLoading" class="h-full w-full markdown" markdown appInterceptRouterlink [data]="data">
+
      </div>
 
   </div>
@@ -101,6 +101,7 @@ export class Blog implements OnInit{
   index:number=0;
  isTyping=false;
  chars:String[]=[];
+ animatedString:string="";
   constructor(private renderer: Renderer2,private route: ActivatedRoute ,private router:Router,private http:HttpClient,private title:Title,private meta:Meta) {
 
 
@@ -211,7 +212,7 @@ get_lol(){
   }
   startTyping(s:string) {
     if(this.isTyping === true){
-
+      this.animatedString = "";
       this.data="";
       this.index=0;
       this.chars=[];
@@ -235,18 +236,35 @@ get_lol(){
     this.index=0;
 
   }
+  // Use an arrow function to preserve the context of this
+  typeString = (str: string) => {
 
-  typeString(str: string) {
-     this.chars = str.split('');
+    // Use a separate variable to store the animated string
+     this.animatedString = "";
+    // Split the string into an array of characters
+    this.chars = str.split('');
+    // Set the initial index to 0
+    this.index = 0;
+    // Set the interval to run the animation
     const intervalId = setInterval(() => {
-      if (this.index < this.chars.length && this.isTyping===true) {
-        this.data += this.chars[this.index];
+      // Check if the index is within the length of the array and the isTyping flag is true
+      if (this.index < this.chars.length && this.isTyping === true) {
+        // Remove the cursor from the previous character by using a substring
+        this.animatedString = this.animatedString.substring(0, this.animatedString.length - 1);
+        // Add the current character and the cursor to the animated string
+        this.animatedString += this.chars[this.index] + "|";
+        // Increment the index
         this.index++;
+        // Update the data attribute with the animated string
+        this.data = this.animatedString;
       } else {
+        // Clear the interval
+        this.data= this.data.replaceAll("|","");
         clearInterval(intervalId);
       }
-    }, 25); // Adjust typing speed here
+    }, 13); // Adjust typing speed here
   }
+
   github(){
   let sata="raw.githubusercontent.com/HariharNautiyal2/" + this.repo;
   let sata2 = "github.com/hariharnautiyal2/" + this.repo + "/blob";

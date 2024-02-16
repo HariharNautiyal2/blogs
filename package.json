@@ -35,6 +35,7 @@
     "rxjs": "~7.8.0",
     "sharp": "^0.33.2",
     "tslib": "^2.3.0",
+    "typed.js": "^2.1.0",
     "unicode-fonts": "^0.0.1",
     "unicode-fonts-js": "^0.2.2",
     "weird-fonts": "^0.1.2",

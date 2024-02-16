@@ -11,6 +11,10 @@
   font-family: spaceage;
   src: url(./assets/spaceage.ttf);
 }
+@font-face {
+  font-family: Dress;
+  src: url(./assets/dress.ttf);
+}
 
 @tailwind base;
 @tailwind components;
@@ -59,15 +63,16 @@ h3{
   font-size: larger;
 }
 p{
-  font-family: "Cedarville Cursive", cursive;
-  font-weight: 400;
+  font-family: "Quicksand",sans-serif;
+  font-weight: 100;
+  font-size: 20px;
   font-style: normal;
   color: #D3D3D3;
 }
 h2{
     color: #e2e8f0;
     margin-top:20px;
-    font-family: Swid;
+    font-family: spaceage;
     font-weight: 400;
     font-style: normal;
 }
@@ -147,3 +152,4 @@ footer{
 a{
   color: cadetblue;
 }
+/* Create a blinking cursor effect inside the div */
