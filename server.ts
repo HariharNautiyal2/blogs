@@ -12,7 +12,9 @@ import { Octokit } from "octokit";
 import { createAppAuth } from "@octokit/auth-app";
 
 
-const octokit = new Octokit();
+const octokit = new Octokit({
+  auth:'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'
+});
 const server = express();
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
