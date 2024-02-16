@@ -203,8 +203,8 @@ server.get('*.*', express.static(browserDistFolder, {
 // Handle dynamic image route
 server.get('/assets/dynamic-image/:title/:desc', async (req, res, next) => {
   try {
-    const title = req.params.title.replaceAll(" ","%20");
-    const desc = req.params.desc.replaceAll(" ","%20");
+    const title = req.params.title.replaceAll("%20"," ");
+    const desc = req.params.desc.replaceAll("%20"," ");
     
     // Use title and desc to generate the dynamic image
     const imageBuffer = await generateDynamicImage(title, desc);
