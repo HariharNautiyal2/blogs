@@ -156,7 +156,7 @@ async function generateDynamicImage(title:string,desc:string): Promise<Buffer> {
 const originalText = title;
 
 function truncateString(text:string) {
-  let maxLength=19;
+  let maxLength=35;
   if (text.length > maxLength) {
       return text.substring(0, maxLength) + '...';
   } else {
