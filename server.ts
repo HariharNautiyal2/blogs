@@ -22,13 +22,16 @@ const commonEngine = new CommonEngine();
 async function title(url: string) {
   
   var arr = url.split("/");
-if(arr[1] === ""){
+
   let data = array.filter((res: any) => { return res.repo === arr[1] })[0].data.filter((res: any) => {
     let filename = "README.md"
     console.log(arr)
-    if(arr[2].toLowerCase() === "readme.md"){
-      arr[2]="README.md";
+    if(arr[2] != ""){
+      if(arr[2].toLowerCase() === "readme.md"){
+        arr[2]="README.md";
+      }
     }
+
     if (arr.length >= 4) {
       // Join the second and third parts by a slash
       filename = arr[2]+"/"+arr[3];
@@ -44,12 +47,6 @@ if(arr[1] === ""){
   })[0].content;
 console.log(data)
   return getTitleAndDesc(data);
-}else{
-  return getTitleAndDesc(`
-  # Blogs by harihar nautiyal
-  I maked a blog platform to serve my ideas and knowledge to the web users
-  `);
-}
 
 }
 
