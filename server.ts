@@ -5,14 +5,12 @@ import { fileURLToPath } from 'node:url';
 import path, { dirname, join, resolve } from 'node:path';
 import sharp from 'sharp';
 import bootstrap from './src/main.server';
+import { Octokit } from 'octokit';
+const octa=new Octokit;
 const fs = require("fs");
 const privateKey = fs.readFileSync("newkey_pkcs8.pem", "utf8");
 let array: any = [];
-fs.readFile("./data.json", 'utf8', (err: any, data: any) => {
-  let arr = JSON.parse(data);
-  array = arr;
-  // Read/modify file data here
-})
+
 const server = express();
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
@@ -322,8 +320,26 @@ server.listen(port, () => {
 });
 
 
-function lol(){
-  setTimeout(()=>{
-    lol()
-  },50000000000)
+ function lol(){
+
+  const axios = require('axios');
+
+  // Make a GET request
+  axios.get('https://raw.githubusercontent.com/HariharNautiyal2/some_blogs/main/data.json')
+      .then((response:any) => {
+        array=response.data;
+     
+      })
+      .catch((error:any) => {
+        fs.readFile('./data.json', 'utf8', (err:any, data:any) => {
+
+          array=JSON.parse(data);
+      });
+      });
+  
+  
+      setTimeout(()=>{
+        lol();
+      },3.6e+6);
 }
+lol()
