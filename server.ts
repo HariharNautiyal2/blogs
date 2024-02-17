@@ -23,7 +23,7 @@ async function title(url: string) {
 
   let data = array.filter((res: any) => { return res.repo === arr[1] })[0].data.filter((res: any) => {
     let filename = "README.md"
-    console.log(arr)
+
     if(arr[2] != ""){
       if(arr[2].toLowerCase() === "readme.md"){
         arr[2]="README.md";
@@ -40,10 +40,10 @@ async function title(url: string) {
     if(arr.length >= 5){
       // filename = ${arr[2]}/${arr[3]}/${arr[4]}`;
     }
-    console.log(filename)
+
     return res.file === filename;
   })[0].content;
-console.log(data)
+
   return getTitleAndDesc(data);
 
 }
@@ -108,7 +108,7 @@ function getTitleAndDesc(text: any) {
       linesArray.push(newline)
     }
   });
-  console.log(result[0])
+
   return {
     title: match[1] || "Blogs by harihar nautiyal",
     desc: linesArray[0] || "Blogs by harihar nautiyal"
@@ -277,7 +277,7 @@ console.log(error)
 });
 
 server.get('*', (req, res, next) => {
-  const { protocol, originalUrl, baseUrl, headers } = req;
+  let { protocol, originalUrl, baseUrl, headers } = req;
 
   commonEngine
     .render({
@@ -288,6 +288,13 @@ server.get('*', (req, res, next) => {
       providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
     })
     .then(async (html) => {
+      let justchange=originalUrl.split("/");
+      if(justchange[2] === undefined){
+        originalUrl="/" + justchange[1] + "/" + "README.md";
+      }
+      if(!originalUrl.endsWith(".md")){
+        originalUrl= originalUrl + ".md";
+      }
       const titmanle: any = await title(originalUrl);
       const replacements = [
         { old: "<title>Blogs by harihar nautiyal</title>", new: "<title>" + titmanle.title + " | Harihar Nautiyal blogs | " + originalUrl + "</title>" },
