@@ -20,26 +20,37 @@ const indexHtml = join(serverDistFolder, 'index.server.html');
 const commonEngine = new CommonEngine();
 
 async function title(url: string) {
+  
   var arr = url.split("/");
-  let data;
-
-  data = array.filter((res: any) => { return res.repo === arr[1] })[0].data.filter((res: any) => {
+if(arr[1] === ""){
+  let data = array.filter((res: any) => { return res.repo === arr[1] })[0].data.filter((res: any) => {
     let filename = "README.md"
+    console.log(arr)
+    if(arr[2].toLowerCase() === "readme.md"){
+      arr[2]="README.md";
+    }
     if (arr.length >= 4) {
       // Join the second and third parts by a slash
-      filename = `${arr[2]}/${arr[3]}`;
-
+      filename = arr[2]+"/"+arr[3];
     }
     if (arr.length >= 3) {
       filename = arr[2];
     }
     if(arr.length >= 5){
-      filename = `${arr[2]}/${arr[3]}/${arr[4]}`;
+      // filename = ${arr[2]}/${arr[3]}/${arr[4]}`;
     }
+    console.log(filename)
     return res.file === filename;
   })[0].content;
-
+console.log(data)
   return getTitleAndDesc(data);
+}else{
+  return getTitleAndDesc(`
+  # Blogs by harihar nautiyal
+  I maked a blog platform to serve my ideas and knowledge to the web users
+  `);
+}
+
 }
 
 
@@ -104,8 +115,8 @@ function getTitleAndDesc(text: any) {
   });
   console.log(result[0])
   return {
-    title: match[1],
-    desc: linesArray[0]
+    title: match[1] || "Blogs by harihar nautiyal",
+    desc: linesArray[0] || "Blogs by harihar nautiyal"
   };
 
 }
