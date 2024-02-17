@@ -272,8 +272,7 @@ server.get('/assets/dynamic-image/:title/:desc', async (req, res, next) => {
     res.set('Content-Type', 'image/png');
     res.send(imageBuffer);
   } catch (error) {
-    console.error('Error generating dynamic image:', error);
-    res.status(500).send('Internal Server Error');
+console.log(error)
   }
 });
 
@@ -331,6 +330,7 @@ server.listen(port, () => {
      
       })
       .catch((error:any) => {
+        console.log(error);
         fs.readFile('./data.json', 'utf8', (err:any, data:any) => {
 
           array=JSON.parse(data);
