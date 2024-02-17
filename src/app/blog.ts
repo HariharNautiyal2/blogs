@@ -10,9 +10,9 @@ import Typed from 'typed.js';
   template:`
 <!-- Add a loading state -->
 
-<div  class="flex flex-col md:flex-row h-fit w-full">
-<div class="flex flex-col md:flex-row h-fit w-full">
-<div class="my-markdown-content backdrop-blur-lg  relative text-slate-400 pt-5 list  px-3 mr-3 ml-3 mb-3  min-h-full text-lg md:w-4/6 overflow-auto " style="height: {{ height -150+ 'px'}} !important;">
+<div  class="flex flex-col md:flex-row h-full w-full">
+<div class="flex flex-col md:flex-row h-full w-full">
+<div class="my-markdown-content backdrop-blur-lg  relative text-slate-400 pt-5 list  px-3 mr-3 ml-3 mb-3  text-lg md:w-4/6 overflow-auto " style="height: calc(100% - 150px) !important;">
      <div>
 
 </div>
@@ -51,8 +51,8 @@ import Typed from 'typed.js';
      </div>
 
   </div>
-  <div class="mx-3 h-fit py-5 px-3 backdrop-blur-lg bh-black/30 rounded-lg mb-10 md:w-2/6  min-h-full">
-    <div class="header flex w-full flex-row items-center text-lg line text-cyan-500 font-black space-x-5"><svg class="mr-2" width="50px" height="50px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#02c9d3"><path d="M14 4a2 2 0 1 0-2.47 1.94V7a.48.48 0 0 1-.27.44L8.49 8.88l-2.76-1.4A.49.49 0 0 1 5.46 7V5.94a2 2 0 1 0-1 0V7a1.51 1.51 0 0 0 .82 1.34L8 9.74v1.32a2 2 0 1 0 1 0V9.74l2.7-1.36A1.49 1.49 0 0 0 12.52 7V5.92A2 2 0 0 0 14 4zM4 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm5.47 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM12 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>{{  this.get_tree() }}</div>
+  <div class="mx-3 h-fit py-5 px-3 backdrop-blur-lg bh-black/30 rounded-lg  md:w-2/6" style="height:calc(100% - 150px);">
+    <div class="header font-q flex w-full flex-row items-center text-lg line text-sky-400 font-black space-x-5"><svg class="mr-2" width="50px" height="50px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#02c9d3"><path d="M14 4a2 2 0 1 0-2.47 1.94V7a.48.48 0 0 1-.27.44L8.49 8.88l-2.76-1.4A.49.49 0 0 1 5.46 7V5.94a2 2 0 1 0-1 0V7a1.51 1.51 0 0 0 .82 1.34L8 9.74v1.32a2 2 0 1 0 1 0V9.74l2.7-1.36A1.49 1.49 0 0 0 12.52 7V5.92A2 2 0 0 0 14 4zM4 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0zm5.47 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM12 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>{{  this.get_tree() }}</div>
 <div class="flex flex-row">
 <button (click)="back()" class=" mt-5 px-3 py-2 mb-3 bg-black/30 rounded-xl flex flex-row justify-center items-center text-sky-700 font-semibold">
     
@@ -106,7 +106,7 @@ export class Blog implements OnInit{
 
 
   }
-public height:number=0;
+
   data:string="";
 
   @Output() dataChanged: EventEmitter<string> = new EventEmitter<string>();
@@ -121,8 +121,7 @@ get_lol(){
   
   ngOnInit() {
     // Get the inner width and height using Renderer2
-    this.height = window.innerHeight;
-    console.log( window.innerWidth)
+
     this.getTree();
     this.route.paramMap.subscribe(params => {
       const repo = params.get('repo');
