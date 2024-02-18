@@ -16,7 +16,10 @@ const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
 const indexHtml = join(serverDistFolder, 'index.server.html');
 const commonEngine = new CommonEngine();
+fs.readFile('./data.json', 'utf8', (err:any, data:any) => {
 
+  array=JSON.parse(data);
+});
 async function title(url: string) {
   
   var arr = url.split("/");
@@ -328,22 +331,7 @@ server.listen(port, () => {
 
  function lol(){
 
-  const axios = require('axios');
-
-  // Make a GET request
-  axios.get('https://raw.githubusercontent.com/HariharNautiyal2/some_blogs/main/data.json')
-      .then((response:any) => {
-        array=response.data;
-     
-      })
-      .catch((error:any) => {
-        console.log(error);
-        fs.readFile('./data.json', 'utf8', (err:any, data:any) => {
-
-          array=JSON.parse(data);
-      });
-      });
-  
+console.log("Get up")
   
       setTimeout(()=>{
         lol();
