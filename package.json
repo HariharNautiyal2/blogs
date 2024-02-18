@@ -1,14 +1,13 @@
 {
   "name": "blogs",
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "blogs": "node dist/blogs/server/server.mjs"
+    "blogs": "node dist/blogs/server/server.cjs"
   },
   "private": true,
   "dependencies": {

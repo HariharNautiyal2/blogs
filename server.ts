@@ -121,7 +121,6 @@ async function generateDynamicImage(title: string, desc: string): Promise<Buffer
   // Function to generate the dynamic image using Sharp
   let width = 800;
   let height = 400;
-  let labela = "Looong Text"; // "Medium Text" "Short"
   function convertToMathematicalSymbols(text: string) {
     const offset = 0x1D434; // Offset for lowercase letters in the Mathematical Alphanumeric Symbols block
     let result = '';
@@ -264,7 +263,7 @@ server.get('*.*', express.static(browserDistFolder, {
 
 // Handle dynamic image route
 server.get('/assets/dynamic-image/:title/:desc', async (req, res, next) => {
-  try {
+
     const title = (req.params.title).replaceAll("%20", " ");
     const desc = (req.params.desc).replaceAll("%20", " ");
 
@@ -273,9 +272,7 @@ server.get('/assets/dynamic-image/:title/:desc', async (req, res, next) => {
 
     res.set('Content-Type', 'image/png');
     res.send(imageBuffer);
-  } catch (error) {
-console.log(error)
-  }
+
 });
 
 server.get('*', (req, res, next) => {
@@ -328,12 +325,3 @@ server.listen(port, () => {
 });
 
 
- function lol(){
-
-console.log("Get up")
-  
-      setTimeout(()=>{
-        lol();
-      },3.6e+6);
-}
-lol()
