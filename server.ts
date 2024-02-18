@@ -5,8 +5,7 @@ import { fileURLToPath } from 'node:url';
 import path, { dirname, join, resolve } from 'node:path';
 import sharp from 'sharp';
 import bootstrap from './src/main.server';
-import { Octokit } from 'octokit';
-const octa=new Octokit;
+
 const fs = require("fs");
 const privateKey = fs.readFileSync("newkey_pkcs8.pem", "utf8");
 let array: any = [];
