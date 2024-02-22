@@ -562,7 +562,7 @@ function replaceHtml(html:string,title:string,desc:string,url:string){
     { old: "<title>Blogs by harihar nautiyal</title>", new: "<title>" + title + " | Harihar Nautiyal blogs | " + url + "</title>" },
     { old: '<meta name="description" content="Harihar Blogs | creative blogs by harihar nautiyal">', new: '<meta name="description" content="' + desc + '">' },
     { old: '<meta name="keywords" content="HariharNautiyal"/>', new: '<meta name="keywords" content="' + desc + '">' },
-    { old: '<meta property="og:title" content="Harihar Nautiyal">', new: '<meta property="og:title" content="' + title + '">' },
+    { old: '<meta property="og:title" content="Blogs by Harihar Nautiyal">', new: '<meta property="og:title" content="' + title + '">' },
     { old: '<meta property="og:url" content="http://blogs.harihar.site">', new: '<meta property="og:url" content="http://blogs.harihar.site' + url + '">' },
     { old: '<meta property="og:image" content="https://hello.com/image.jpg">', new: '<meta property="og:image" content="/api/dynamic-image/' + title.replaceAll(" ", "%20") + "/" + desc.replaceAll(" ", "%20") + '">' }
   ];
