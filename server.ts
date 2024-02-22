@@ -564,7 +564,7 @@ function replaceHtml(html:string,title:string,desc:string,url:string){
     { old: '<meta name="keywords" content="HariharNautiyal"/>', new: '<meta name="keywords" content="' + desc + '">' },
     { old: '<meta property="og:title" content="Harihar Nautiyal">', new: '<meta property="og:title" content="' + title + '">' },
     { old: '<meta property="og:url" content="http://blogs.harihar.site">', new: '<meta property="og:url" content="http://blogs.harihar.site' + url + '">' },
-    { old: '<meta property="og:image" content="https://hello.com/image.jpg">', new: '<meta property="og:image" content="/assets/dynamic-image/' + title.replaceAll(" ", "%20") + "/" + desc.replaceAll(" ", "%20") + '">' }
+    { old: '<meta property="og:image" content="https://hello.com/image.jpg">', new: '<meta property="og:image" content="/api/dynamic-image/' + title.replaceAll(" ", "%20") + "/" + desc.replaceAll(" ", "%20") + '">' }
   ];
 
   // Initialize a variable to store the modified html
