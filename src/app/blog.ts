@@ -1,21 +1,26 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, EventEmitter, HostListener, OnInit, Output, Renderer2, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Component, Inject, OnChanges, OnInit, Output, PLATFORM_ID, Renderer2, SimpleChanges, ViewChild } from "@angular/core";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { Observable, map } from "rxjs";
-import { Meta, Title } from '@angular/platform-browser';
+import { BrowserModule, Meta, Title } from '@angular/platform-browser';
 import { InterceptRouterlinkDirective } from "./directive";
 import Typed from 'typed.js';
+import { MarkdownComponent } from "ngx-markdown";
+import { CommonModule, isPlatformBrowser } from "@angular/common";
+import { MarkdownService } from "ngx-markdown";
+import { Location } from '@angular/common';
 @Component({
   selector:'blog',
+  standalone:true,
+  imports:[MarkdownComponent,RouterLink,CommonModule,InterceptRouterlinkDirective],
+  host: {ngSkipHydration: 'true'},
   template:`
 <!-- Add a loading state -->
 
 <div  class="flex flex-col md:flex-row h-full w-full">
 <div class="flex flex-col md:flex-row h-full w-full">
-<div class="my-markdown-content backdrop-blur-lg  relative text-slate-400 pt-5 list  px-3 mr-3 ml-3 mb-3  text-lg md:w-4/6 overflow-auto " style="height: calc(100% - 150px) !important;">
-     <div>
+<div class="my-markdown-content backdrop-blur-lg  relative text-slate-400 pt-5 list  px-3 mr-3 ml-3 mb-3  text-lg md:w-4/6 overflow-auto h-full" style="height: calc(100% - 150px);">
 
-</div>
        <div  *ngIf="isLoading" >
        <svg version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
   viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve" height="100px" width="100px" class="ml-7">
@@ -46,7 +51,7 @@ import Typed from 'typed.js';
 </svg>
 
       </div>
-       <div *ngIf="!isLoading" class="h-full w-full markdown" markdown appInterceptRouterlink [data]="data">
+       <div *ngIf="!isLoading" class="h-full w-full markdown" appInterceptRouterlink [innerHtml]="div">
 
      </div>
 
@@ -85,7 +90,7 @@ import Typed from 'typed.js';
 </div>
   `,
 })
-export class Blog implements OnInit{
+export class Blog implements OnInit,OnChanges{
 
   @ViewChild(InterceptRouterlinkDirective)
   private interceptRouterlinkDirective!: InterceptRouterlinkDirective; 
@@ -99,120 +104,115 @@ export class Blog implements OnInit{
   private baseUrl = 'https://api.github.com';
   isLoading = false; // Add a loading state
   index:number=0;
+  div:any=`<h1>Lol</h1>`;
  isTyping=false;
  chars:String[]=[];
  animatedString:string="";
-  constructor(private renderer: Renderer2,private route: ActivatedRoute ,private router:Router,private http:HttpClient,private title:Title,private meta:Meta) {
 
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object,private location:Location,private route: ActivatedRoute ,private router:Router,private http:HttpClient,private title:Title,private meta:Meta,private ms:MarkdownService) {
+   
 
   }
 
   data:string="";
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+       // Get the inner width and height using Renderer2
 
-  @Output() dataChanged: EventEmitter<string> = new EventEmitter<string>();
-
-get_lol(){
-  
-}
-  updateData() {
-      const newData = "Data updated in child!";
-      this.dataChanged.emit(newData); // Emit the event
+       this.get_runtime();
+    }
   }
-  
-  ngOnInit() {
-    // Get the inner width and height using Renderer2
+  ngOnChanges(changes: SimpleChanges): void {
 
-    this.getTree();
-    this.route.paramMap.subscribe(params => {
-      const repo = params.get('repo');
+    console.log("Yo boss")
+    // Check if the route has changed
+    if (changes['route']) {
+      // Get the new blog post id from the route
+      this.get_runtime();
+    }
+  }
+   compile_to_div(div:string){
 
-      let name = params.get('file');
-      const directory = params.get('directory');
-      const directory2 = params.get('directory2');
+    const compiledHtml =  this.ms.parse(div);
+
+      return compiledHtml;
+    
+
  
+  }
+
+get_runtime(){
+
+  this.getTree();
+  this.route.paramMap.subscribe(params => {
+    const repo = params.get('repo');
+
+    let name = params.get('file');
+    const directory = params.get('directory');
+    const directory2 = params.get('directory2');
 
 
-      if (name) {
-        name = name.includes('.md') ? name.slice(0, -3) : name;
-        let namex=name.toLowerCase().search('readme');
-        if(namex != -1){
-            name=name.toUpperCase();
-        }else{
-           name=name.toLowerCase();
+
+    if (name) {
+      name = name.includes('.md') ? name.slice(0, -3) : name;
+      let namex=name.toLowerCase().search('readme');
+      if(namex != -1){
+          name=name.toUpperCase();
+      }else{
+         name=name.toLowerCase();
+      }
+   
+      
+      this.url = `https://raw.githubusercontent.com/HariharNautiyal2/${repo}/main/`;
+
+      if (directory) {
+        this.url += `${directory}/`;
+        if (directory2) {
+          this.url += `${directory2}/`;
         }
-     
-        
-        this.url = `https://raw.githubusercontent.com/HariharNautiyal2/${repo}/main/`;
-
-        if (directory) {
-          this.url += `${directory}/`;
-          if (directory2) {
-            this.url += `${directory2}/`;
-          }
-        }
-
-        this.url += `${name}.md`;
-        this.isLoading = true; // Start loading
-        this.http.get(this.url, {responseType: 'text'}).subscribe((data:any)=>{
-          this.startTyping(data);
-          this.isLoading = false; // End loading
-          const headingRegex = /^#+\s+(.*)/gm; // Matches lines starting with #
-          const matches = [];
-          let match;
-          while ((match = headingRegex.exec(data))) {
-              matches.push(match[1]);
-          }
-    
-         this.title.setTitle(matches[0]);
-         this.meta.addTags([
-          {name: 'keywords', content: data},
-          {name: 'description', content: this.url},
-        ]);
-    
-        },(err:any)=>{
-            console.log(err);
-            this.isLoading = false; // End loading even if there's an error
-        });
       }
 
-      console.log(this.url);
-    });
-  }
+      this.url += `${name}.md`;
+      this.isLoading = true; // Start loading
+      this.http.get(this.url, {responseType: 'text'}).subscribe((data:any)=>{
+        this.startTyping(this.compile_to_div(data));
+        
+        this.isLoading = false; // End loading
+        const headingRegex = /^#+\s+(.*)/gm; // Matches lines starting with #
+        const matches = [];
+        let match;
+        while ((match = headingRegex.exec(data))) {
+            matches.push(match[1]);
+        }
+  
+      //  this.title.setTitle(matches[0]);
+      //  this.meta.addTags([
+      //   {name: 'keywords', content: data},
+      //   {name: 'description', content: this.url},
+      // ]);
+  
+      },(err:any)=>{
+          console.log(err);
+          this.isLoading = false; // End loading even if there's an error
+      });
+    }
+
+    console.log(this.url + "by blog.ts");
+  });
+}
+
 
 
   back(){
 
-      let repo= this.repo;
-      let directory = this.directory;
-      let directory2= this.directory2;
-      let name=this.name;
-      if(name){
-        name = name.includes('.md') ? name.slice(0, -3) : name;
-
-      }
-      
-      if(directory2 != null && directory != null){
-        this.router.navigate([ "/" + repo + "/" + directory + "/"  + "readme"]);
-  
-      }
-      if(directory != null && directory2 === null){
-        if(name?.toLowerCase() != "readme"){
-          this.router.navigate([ "/" + repo + "/" + directory + "/"  + "readme"]);
-        }else{
-          this.router.navigate(["/" + repo + "/"  + "readme"])
-        }
-       
-      }
-      if(directory === null && directory2 === null){
-        this.router.navigate(["/"])
-        
-      }
+    this.location.back(); 
   
   }
-  startTyping(s:string) {
+  startTyping(s:any) {
     if(this.isTyping === true){
       this.animatedString = "";
-      this.data="";
+      this.div="";
       this.index=0;
       this.chars=[];
       // Start typing effect
@@ -227,14 +227,7 @@ get_lol(){
   }
 
   // Method to end typing effect
-   endTyping() {
-    // Set typing progress to false
-    this.index=9999999999999999999999999;
-    this.data="";
 
-    this.index=0;
-
-  }
   // Use an arrow function to preserve the context of this
   typeString = (str: string) => {
 
@@ -255,10 +248,9 @@ get_lol(){
         // Increment the index
         this.index++;
         // Update the data attribute with the animated string
-        this.data = this.animatedString;
+        this.div = this.animatedString;
       } else {
         // Clear the interval
-        this.data= this.data.replaceAll("|","");
         clearInterval(intervalId);
       }
     }, 13); // Adjust typing speed here

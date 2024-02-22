@@ -2,7 +2,8 @@ import { Directive, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Directive({
-  selector: '[appInterceptRouterlink]'
+  selector: '[appInterceptRouterlink]',
+  standalone:true
 })
 export class InterceptRouterlinkDirective {
   typingInProgress :boolean= false; // Track if typing effect is in progress

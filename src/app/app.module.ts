@@ -5,17 +5,16 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { FormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
 import {Blog} from './blog';
-
+import{InterceptRouterlinkDirective}from'./directive';
 
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterOutlet } from '@angular/router';
 import {AppRoutingModule} from './app.routes';
 
-import { InterceptRouterlinkDirective } from './directive';
+
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { UpdateService } from './checkforup.service';
-import { Markedcom } from './marked';
 
 @NgModule({
   imports:      [
@@ -32,7 +31,7 @@ import { Markedcom } from './marked';
  })
 
   ],
-  declarations: [ AppComponent,Blog ,InterceptRouterlinkDirective,Markedcom],
+  declarations: [ AppComponent],
   bootstrap:    [ AppComponent ],
   providers:[UpdateService, provideClientHydration()]
 })

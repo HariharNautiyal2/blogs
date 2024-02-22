@@ -7,6 +7,7 @@ import { Title, Meta } from '@angular/platform-browser';
 import { Request, Response } from 'express';
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { InterceptRouterlinkDirective } from './directive';
 
 
 @NgModule({
