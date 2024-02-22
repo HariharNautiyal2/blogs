@@ -1,0 +1,45 @@
+{
+  "name": "Harihar Blogs",
+  "short_name": "Harihar Blogs",
+  "background_color": "#220000",
+  "theme_color": "#f60000",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "assets/icons/favicon-194x194.png",
+      "sizes": "194x194 512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/favicon-144x144-maskable.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+      {
+    "src": "assets/icons/icon.svg",
+    "sizes": "any",
+    "purpose": "any"
+  }
+  ],
+  "start_url": "/notes",
+  "shortcuts": [
+    {
+      "name": "Go to Notes",
+      "short_name": "Notes",
+      "description": "Go to the Notes.",
+      "url": "/notes"
+    },
+    {
+      "name": "Some Blogs",
+      "short_name": "Some Blogs",
+      "description": "Some Blogs",
+      "url": "/some_blogs"
+    }
+  ]
+}

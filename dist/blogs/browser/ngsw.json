@@ -1,0 +1,111 @@
+{
+  "configVersion": 1,
+  "timestamp": 1708604281435,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/favicon.ico",
+        "/index.html",
+        "/main-LCM7QN3V.js",
+        "/manifest.webmanifest",
+        "/polyfills-RX4V3J3S.js",
+        "/styles-DLDLYCWL.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/assets/421610744_410204158244875_6538292808354960270_n.jpg",
+        "/assets/Can.mp3",
+        "/assets/Untitled.svg",
+        "/assets/blackhole.webm",
+        "/assets/car.webm",
+        "/assets/dream.webm",
+        "/assets/dress.ttf",
+        "/assets/g.ttf",
+        "/assets/git.svg",
+        "/assets/gitfile.svg",
+        "/assets/github.svg",
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/spaceage.ttf",
+        "/assets/ui.webm",
+        "/media/dress-5CF5IPFC.ttf",
+        "/media/g-F6DDTRWC.ttf",
+        "/media/spaceage-7FNWOYB2.ttf"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/assets/421610744_410204158244875_6538292808354960270_n.jpg": "27dfe2000264d8b0a4eceb9fc67e84addcfa86bc",
+    "/assets/Can.mp3": "66b93b0eb64fc95d08a51be2701331859b66f808",
+    "/assets/Untitled.svg": "359dea68c444939a25ec8d1a3f0cf5d32224e5da",
+    "/assets/blackhole.webm": "f8aadbea189c8988efcac24b59cb6b71bedef853",
+    "/assets/car.webm": "2374874901b89ea91a2da45df930e31792185989",
+    "/assets/dream.webm": "cd587aed952de9c4db6176837a06199eb25b74cb",
+    "/assets/dress.ttf": "d015aa41c58c6b275ee8e007fc76be20ce0bab6a",
+    "/assets/g.ttf": "0f5bb6c6e2638d3c67a6647fe11da9fed1a60842",
+    "/assets/git.svg": "8ab35b9943e4ee86dccd3155ae133c78083716b6",
+    "/assets/gitfile.svg": "11bc8b64719df1c6f40cab508a1af5e66dee7e88",
+    "/assets/github.svg": "d5584d924da124e60fbbad445507c5f168777fd1",
+    "/assets/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
+    "/assets/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
+    "/assets/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
+    "/assets/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
+    "/assets/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
+    "/assets/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
+    "/assets/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
+    "/assets/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
+    "/assets/spaceage.ttf": "e12400246111da1a1b62ad9efdf8846b8e35a910",
+    "/assets/ui.webm": "393f53c81fb71acb75eb70e1ad21aaf3d0540f53",
+    "/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
+    "/index.html": "7d7ef906e0938f62767053aa6593d96b39dbb40c",
+    "/main-LCM7QN3V.js": "906be8de29ee7e8489d15c4851ca9c23993e5b21",
+    "/manifest.webmanifest": "0f5cb7e3c109f18c09179ecac4fa166ae2229919",
+    "/media/dress-5CF5IPFC.ttf": "d015aa41c58c6b275ee8e007fc76be20ce0bab6a",
+    "/media/g-F6DDTRWC.ttf": "0f5bb6c6e2638d3c67a6647fe11da9fed1a60842",
+    "/media/spaceage-7FNWOYB2.ttf": "e12400246111da1a1b62ad9efdf8846b8e35a910",
+    "/polyfills-RX4V3J3S.js": "6b4c4ea33aa92bce0b91df442a680ed73e4303db",
+    "/styles-DLDLYCWL.css": "130beb9f56570e9946171cace7adf4f1f5e7cd2e"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
